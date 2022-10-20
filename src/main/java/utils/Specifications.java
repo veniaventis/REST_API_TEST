@@ -18,10 +18,24 @@ public class Specifications {
     public static ResponseSpecification responseSpecOK200(){
         return new ResponseSpecBuilder()
                 .expectStatusCode(200)
+                .expectContentType(ContentType.JSON)
+                .build();
+    }
+    public static ResponseSpecification responseSpec404(){
+        return new ResponseSpecBuilder()
+                .expectStatusCode(404)
+                .expectContentType(ContentType.JSON)
                 .build();
     }
 
-    public static void installSpecification(RequestSpecification request, ResponseSpecification response){
+    public static ResponseSpecification responseSpec201(){
+        return new ResponseSpecBuilder()
+                .expectStatusCode(201)
+                .expectContentType(ContentType.JSON)
+                .build();
+    }
+
+    public static void  installSpecification(RequestSpecification request, ResponseSpecification response){
         RestAssured.requestSpecification = request;
         RestAssured.responseSpecification = response;
     }

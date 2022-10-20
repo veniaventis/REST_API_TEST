@@ -1,4 +1,4 @@
-package api;
+package api.posts;
 
 public class Posts {
     private Integer userId;

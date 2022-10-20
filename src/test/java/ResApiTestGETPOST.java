@@ -1,43 +1,52 @@
-import api.Posts;
-import api.Posts99;
+import api.ApiRequest;
+import api.posts.*;
+import api.users.Users;
+import aquality.selenium.core.utilities.JsonSettingsFile;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import utils.SortUtils;
-import utils.Specifications;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
 
 public class ResApiTestGETPOST {
-    private final String URL = "https://jsonplaceholder.typicode.com";
-    private final String POSTS = "/posts";
-    private final String POSTS_99 = "/posts/99";
-
+    private final String RANDOM_TEXT = RandomStringUtils.randomAlphanumeric(20);
+    private static final int EXPECTED_USER_ID = (int) new JsonSettingsFile("testconfig.json").getValue("/userId");
+    private static final int EXPECTED_ID = (int) new JsonSettingsFile("testconfig.json").getValue("/id");
+    private static final String EXPECTED_USER = "src/main/resources/expected_user.json";
     @Test
     public void checkStatusCodeIsJsonSorted(){
-        Specifications.installSpecification(Specifications.requestSpec(URL),Specifications.responseSpecOK200());
-        List<Posts> posts = given()
-                .when()
-                .get(POSTS)
-                .then().log().all()
-                .extract().jsonPath().getList(".", Posts.class);
+        List<Posts> posts = ApiRequest.getPosts();
         List<Integer> ids = posts.stream().map(Posts::getId).toList();
         Assert.assertTrue(SortUtils.isSortedList(ids),"Objects list isn't sorted by Id");
     }
+    @Parameters("postNumber")
     @Test
-    public void checkInformation(){
-        Specifications.installSpecification(Specifications.requestSpec(URL),Specifications.responseSpecOK200());
-        Posts99 posts99 = given()
-                .when()
-                .get(POSTS_99)
-                .then().log().all()
-                .extract().as(Posts99.class);
-       Assert.assertEquals(posts99.getUserId().intValue(),10, "User ID isn't 10" );
-       Assert.assertEquals(posts99.getId().intValue(), 99,"ID isn't 99");
-       Assert.assertNotEquals(posts99.getTitle(), "","Title is empty");
-       Assert.assertNotEquals(posts99.getBody(), "", "Body is empty");
+    public void checkInformation(int postNumber){
+       Posts postsNumber = ApiRequest.getPosts(postNumber);
+       Assert.assertEquals(postsNumber.getUserId().intValue(),EXPECTED_USER_ID, "User ID isn't 10" );
+       Assert.assertEquals(postsNumber.getId().intValue(), EXPECTED_ID,"ID isn't 99");
+       Assert.assertNotEquals(postsNumber.getTitle(), "","Title is empty");
+       Assert.assertNotEquals(postsNumber.getBody(), "", "Body is empty");
+    }
+    @Parameters("emptyPostNumber")
+    @Test
+    public void checkEmptyResponse(int emptyPostNumber){
+        Posts emptyPosts = ApiRequest.getPosts(emptyPostNumber);
+        Assert.assertNull(emptyPosts.getId(),"Response isn't empty");
     }
 
-
+    @Test
+    public void testPost(){
+        NewPost newPost = new NewPost(RANDOM_TEXT,RANDOM_TEXT,1);
+        ExpectedPost expectedPost = ApiRequest.getExpectedPosts(newPost);
+        Assert.assertEquals(RANDOM_TEXT,expectedPost.getBody(),"Body doesn't match");
+        Assert.assertEquals(RANDOM_TEXT, expectedPost.getTitle(),"Titles doesn't match");
+        Assert.assertEquals(1,expectedPost.getUserId(),"UserId doesn't match");
+    }
 }
