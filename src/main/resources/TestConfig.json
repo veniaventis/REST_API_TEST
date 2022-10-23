@@ -1,0 +1,8 @@
+{
+  "http" : "https://jsonplaceholder.typicode.com/",
+  "post": 99,
+  "nullPost": 150,
+  "expectedUser": 5,
+  "newUserID": 1,
+  "newId": 101
+}

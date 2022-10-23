@@ -1,9 +1,6 @@
-package api.users;
+package api.models;
 
-import api.users.models.Address;
-import api.users.models.Company;
-
-public class Users {
+public class User {
     private Integer id;
     private String name;
     private String username;
@@ -13,7 +10,7 @@ public class Users {
     private String website;
     private Company company;
 
-    public Users() {
+    public User() {
     }
 
     public long getId() {

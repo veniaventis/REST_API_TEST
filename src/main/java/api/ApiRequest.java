@@ -1,57 +1,76 @@
 package api;
 
-import api.posts.ExpectedPost;
-import api.posts.Posts;
-import api.users.Users;
-import utils.Specifications;
+import api.models.ResponseModelJSON;
+import api.models.User;
+import api.models.Post;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.List;
+import java.io.IOException;
 
-import static io.restassured.RestAssured.given;
+import static utils.ApiUtils.sendGetRequest;
+import static utils.ApiUtils.sendPostRequest;
+import static utils.ConfigUtils.getConfigString;
+import static utils.JSONUtils.deserializationObject;
+
 
 public class ApiRequest {
-    private static final String URL = "https://jsonplaceholder.typicode.com";
-    private static final String POSTS = "/posts/";
-    private static final String USERS = "/users";
+    public static ResponseModelJSON RESPONSE_JSON = null;
+    private final static String POSTS_POSTFIX = "posts";
+    private final static String USERS_POSTFIX = "users";
+    private final static String BASE_HTTP = getConfigString("http");
 
-    public static List<Posts> getPosts(){
-        Specifications.installSpecification(Specifications.requestSpec(URL),Specifications.responseSpecOK200());
-        return given()
-                .when()
-                .get(POSTS)
-                .then().log().all()
-                .extract().jsonPath().getList(".", Posts.class);
+    public static Post getJsonPerson(int number){
+        RESPONSE_JSON = sendGetRequest(BASE_HTTP,String.format("%s/%d",POSTS_POSTFIX,number));
+        Post person = null;
+        try {
+            person = new ObjectMapper().readValue(RESPONSE_JSON.getBody().toString(), Post.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return person;
     }
 
-    public static Posts getPosts(int postNumber){
-        if (postNumber == 150){
-        Specifications.installSpecification(Specifications.requestSpec(URL),Specifications.responseSpec404());}
-        else {Specifications.installSpecification(Specifications.requestSpec(URL),Specifications.responseSpecOK200());}
-
-        return  given()
-                .when()
-                .get(POSTS + postNumber)
-                .then().log().all()
-                .extract().as(Posts.class);
+    public static Post[] getJsonPersons(){
+        RESPONSE_JSON = sendGetRequest(BASE_HTTP, POSTS_POSTFIX);
+        Post[] persons = null;
+        try {
+            persons = new ObjectMapper().readValue(RESPONSE_JSON.getBody().toString(), Post[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return persons;
     }
 
-
-    public static ExpectedPost getExpectedPosts(Object post){
-        Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpec201());
-        return  given()
-                .body(post)
-                .when()
-                .post(POSTS)
-                .then().log().all()
-                .extract().as(ExpectedPost.class);
+    public static User getJsonUser(int number){
+        RESPONSE_JSON = sendGetRequest(BASE_HTTP,USERS_POSTFIX+"/"+number);
+        User userModel = null;
+        try {
+            userModel = new ObjectMapper().readValue(RESPONSE_JSON.getBody().toString(), User.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return userModel;
     }
 
-    public static List<Users> getUsers(){
-        Specifications.installSpecification(Specifications.requestSpec(URL), Specifications.responseSpecOK200());
-        return given()
-                .when()
-                .get(USERS)
-                .then().log().all()
-                .extract().body().jsonPath().getList(".",Users.class);
+    public static User[] getJsonUsers(){
+        RESPONSE_JSON = sendGetRequest(BASE_HTTP, USERS_POSTFIX);
+        User[] userModels = null;
+        try {
+            userModels = new ObjectMapper().readValue(RESPONSE_JSON.getBody().toString(), User[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return userModels;
+    }
+
+    public static Post postJsonPerson(Post personPost){
+        RESPONSE_JSON = sendPostRequest(BASE_HTTP, POSTS_POSTFIX, deserializationObject(personPost));
+        Post person = null;
+        try {
+            person = new ObjectMapper().readValue(RESPONSE_JSON.getBody().toString(), Post.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return person;
     }
 }

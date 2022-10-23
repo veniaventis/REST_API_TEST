@@ -1,4 +1,4 @@
-package api.users.models;
+package api.models;
 
 public class Company {
     private String name;
