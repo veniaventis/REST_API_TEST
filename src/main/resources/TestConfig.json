@@ -4,5 +4,6 @@
   "nullPost": 150,
   "expectedUser": 5,
   "newUserID": 1,
-  "newId": 101
+  "newId": 101,
+  "expectedFiles": "src/main/resources/"
 }

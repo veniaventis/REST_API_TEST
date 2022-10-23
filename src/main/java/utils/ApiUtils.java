@@ -14,17 +14,19 @@ public class ApiUtils {
         } catch (UnirestException e) {
             e.printStackTrace();
         }
+        assert jsonResponse != null;
         return new ResponseModelJSON(jsonResponse.getStatus(), jsonResponse.getBody());
     }
 
     public static ResponseModelJSON sendPostRequest(String httpBody, String path, String json){
         HttpResponse<JsonNode> jsonResponse = null;
         try {
-            jsonResponse = Unirest.post(httpBody+path)
+            jsonResponse = Unirest.post( String.format("%s%s",httpBody,path))
                     .header("Content-Type", "application/json").body(json).asJson();
         } catch (UnirestException e) {
             e.printStackTrace();
         }
+        assert jsonResponse != null;
         return new ResponseModelJSON(jsonResponse.getStatus(), jsonResponse.getBody());
     }
 }
