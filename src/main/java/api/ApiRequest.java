@@ -1,6 +1,6 @@
 package api;
 
-import api.models.ResponseModelJSON;
+import api.models.ResponseModelJson;
 import api.models.User;
 import api.models.Post;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +14,7 @@ import static utils.JsonUtils.deserializationObject;
 
 
 public class ApiRequest {
-    public static ResponseModelJSON RESPONSE_JSON = null;
+    public static ResponseModelJson RESPONSE_JSON = null;
     private final static String POSTS_POSTFIX = "posts";
     private final static String USERS_POSTFIX = "users";
     private final static String BASE_HTTP = getConfigString("http");

@@ -1,13 +1,13 @@
 package utils;
 
-import api.models.ResponseModelJSON;
+import api.models.ResponseModelJson;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.http.HttpResponse;
 
 public class ApiUtils {
-    public static ResponseModelJSON sendGetRequest(String httpBody, String get) {
+    public static ResponseModelJson sendGetRequest(String httpBody, String get) {
         HttpResponse<JsonNode> jsonResponse = null;
         try {
             jsonResponse = Unirest.get(String.format("%s%s", httpBody, get)).asJson();
@@ -15,10 +15,10 @@ public class ApiUtils {
             e.printStackTrace();
         }
         assert jsonResponse != null;
-        return new ResponseModelJSON(jsonResponse.getStatus(), jsonResponse.getBody());
+        return new ResponseModelJson(jsonResponse.getStatus(), jsonResponse.getBody());
     }
 
-    public static ResponseModelJSON sendPostRequest(String httpBody, String path, String json) {
+    public static ResponseModelJson sendPostRequest(String httpBody, String path, String json) {
         HttpResponse<JsonNode> jsonResponse = null;
         try {
             jsonResponse = Unirest.post(String.format("%s%s", httpBody, path))
@@ -27,6 +27,6 @@ public class ApiUtils {
             e.printStackTrace();
         }
         assert jsonResponse != null;
-        return new ResponseModelJSON(jsonResponse.getStatus(), jsonResponse.getBody());
+        return new ResponseModelJson(jsonResponse.getStatus(), jsonResponse.getBody());
     }
 }

@@ -2,7 +2,7 @@ package api.models;
 
 import com.mashape.unirest.http.JsonNode;
 
-public class ResponseModelJSON {
+public class ResponseModelJson {
     protected int statusCode;
     protected JsonNode body;
 
@@ -14,7 +14,7 @@ public class ResponseModelJSON {
         return body;
     }
 
-    public ResponseModelJSON(int statusCode, JsonNode body) {
+    public ResponseModelJson(int statusCode, JsonNode body) {
         this.statusCode = statusCode;
         this.body = body;
     }
