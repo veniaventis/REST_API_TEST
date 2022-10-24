@@ -1,5 +1,4 @@
 {
-  "http" : "https://jsonplaceholder.typicode.com/",
   "post": 99,
   "nullPost": 150,
   "expectedUser": 5,

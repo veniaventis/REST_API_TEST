@@ -1,6 +1,7 @@
 package utils;
 
 import api.models.ResponseModelJson;
+import aquality.selenium.core.logging.Logger;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -12,9 +13,8 @@ public class ApiUtils {
         try {
             jsonResponse = Unirest.get(String.format("%s%s", httpBody, get)).asJson();
         } catch (UnirestException e) {
-            e.printStackTrace();
+            Logger.getInstance().debug("Get request doesn't send ", e );
         }
-        assert jsonResponse != null;
         return new ResponseModelJson(jsonResponse.getStatus(), jsonResponse.getBody());
     }
 
@@ -24,9 +24,8 @@ public class ApiUtils {
             jsonResponse = Unirest.post(String.format("%s%s", httpBody, path))
                     .header("Content-Type", "application/json").body(json).asJson();
         } catch (UnirestException e) {
-            e.printStackTrace();
+            Logger.getInstance().debug("New Post doesn't send", e );
         }
-        assert jsonResponse != null;
         return new ResponseModelJson(jsonResponse.getStatus(), jsonResponse.getBody());
     }
 }
