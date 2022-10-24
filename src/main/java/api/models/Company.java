@@ -13,7 +13,7 @@ public class Company {
     private String bs;
 
     public Company(@JsonProperty(value = "name") String name, @JsonProperty(value = "catchPhrase") String catchPhrase,
-                   @JsonProperty(value = "bs") String bs){
+                   @JsonProperty(value = "bs") String bs) {
         this.name = name;
         this.catchPhrase = catchPhrase;
         this.bs = bs;

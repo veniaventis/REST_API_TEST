@@ -9,25 +9,25 @@ import java.io.IOException;
 
 public class ModelsUtils {
 
-    public static boolean getEmptyBodyPerson(Post person){
+    public static boolean getEmptyBodyPerson(Post person) {
         try {
             person.getBody().isEmpty();
             return false;
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return true;
         }
     }
 
-    public static boolean dataIsSortedById(Post[] persons){
-        for(int i = 0; i < persons.length - 1; i++){
-            if(persons[i].getId() >= persons[i+1].getId()) {
+    public static boolean dataIsSortedById(Post[] persons) {
+        for (int i = 0; i < persons.length - 1; i++) {
+            if (persons[i].getId() >= persons[i + 1].getId()) {
                 return false;
             }
         }
         return true;
     }
 
-    public static User getJsonUserFromFile(String jsonOnFile){
+    public static User getJsonUserFromFile(String jsonOnFile) {
         User user = null;
         try {
             user = new ObjectMapper().readValue(jsonOnFile, User.class);
@@ -37,7 +37,7 @@ public class ModelsUtils {
         return user;
     }
 
-    public static Post getJsonPersonFromFile(String jsonOnFile){
+    public static Post getJsonPersonFromFile(String jsonOnFile) {
         Post person = null;
         try {
             person = new ObjectMapper().readValue(jsonOnFile, Post.class);

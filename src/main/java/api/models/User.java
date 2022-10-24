@@ -20,7 +20,7 @@ public class User {
     public User(@JsonProperty(value = "id") int id, @JsonProperty(value = "name") String name,
                 @JsonProperty(value = "username") String username, @JsonProperty(value = "email") String email,
                 @JsonProperty(value = "address") Address address, @JsonProperty(value = "phone") String phone,
-                @JsonProperty(value = "website") String website, @JsonProperty(value = "company") Company company){
+                @JsonProperty(value = "website") String website, @JsonProperty(value = "company") Company company) {
         this.id = id;
         this.name = name;
         this.username = username;

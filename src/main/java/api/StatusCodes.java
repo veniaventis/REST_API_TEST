@@ -12,7 +12,7 @@ public enum StatusCodes {
         this.STATUS = status;
     }
 
-    public int getSTATUS(){
+    public int getSTATUS() {
         return STATUS;
     }
 }

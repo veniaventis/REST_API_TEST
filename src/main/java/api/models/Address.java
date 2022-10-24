@@ -15,8 +15,8 @@ public class Address {
     private String zipcode;
     private Geo geo;
 
-    public Address(@JsonProperty(value = "street") String street, @JsonProperty(value = "suite")  String suite,
-                   @JsonProperty(value = "city")  String city, @JsonProperty(value = "zipcode")  String zipcode,
+    public Address(@JsonProperty(value = "street") String street, @JsonProperty(value = "suite") String suite,
+                   @JsonProperty(value = "city") String city, @JsonProperty(value = "zipcode") String zipcode,
                    @JsonProperty(value = "geo") Geo geo) {
         this.street = street;
         this.suite = suite;

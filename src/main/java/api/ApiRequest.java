@@ -19,8 +19,8 @@ public class ApiRequest {
     private final static String USERS_POSTFIX = "users";
     private final static String BASE_HTTP = getConfigString("http");
 
-    public static Post getJsonPerson(int number){
-        RESPONSE_JSON = sendGetRequest(BASE_HTTP,String.format("%s/%d",POSTS_POSTFIX,number));
+    public static Post getJsonPerson(int number) {
+        RESPONSE_JSON = sendGetRequest(BASE_HTTP, String.format("%s/%d", POSTS_POSTFIX, number));
         Post person = null;
         try {
             person = new ObjectMapper().readValue(RESPONSE_JSON.getBody().toString(), Post.class);
@@ -30,7 +30,7 @@ public class ApiRequest {
         return person;
     }
 
-    public static Post[] getJsonPersons(){
+    public static Post[] getJsonPersons() {
         RESPONSE_JSON = sendGetRequest(BASE_HTTP, POSTS_POSTFIX);
         Post[] persons = null;
         try {
@@ -41,8 +41,8 @@ public class ApiRequest {
         return persons;
     }
 
-    public static User getJsonUser(int number){
-        RESPONSE_JSON = sendGetRequest(BASE_HTTP,USERS_POSTFIX+"/"+number);
+    public static User getJsonUser(int number) {
+        RESPONSE_JSON = sendGetRequest(BASE_HTTP, USERS_POSTFIX + "/" + number);
         User userModel = null;
         try {
             userModel = new ObjectMapper().readValue(RESPONSE_JSON.getBody().toString(), User.class);
@@ -52,7 +52,7 @@ public class ApiRequest {
         return userModel;
     }
 
-    public static User[] getJsonUsers(){
+    public static User[] getJsonUsers() {
         RESPONSE_JSON = sendGetRequest(BASE_HTTP, USERS_POSTFIX);
         User[] userModels = null;
         try {
@@ -63,7 +63,7 @@ public class ApiRequest {
         return userModels;
     }
 
-    public static Post postJsonPerson(Post personPost){
+    public static Post postJsonPerson(Post personPost) {
         RESPONSE_JSON = sendPostRequest(BASE_HTTP, POSTS_POSTFIX, deserializationObject(personPost));
         Post person = null;
         try {
